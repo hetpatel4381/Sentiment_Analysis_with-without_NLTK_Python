@@ -49,6 +49,9 @@ print(emotion_list)
 w = Counter(emotion_list)
 print(w)
 
-plt.bar(w.keys(), w.values())
+
+fig, ax1 = plt.subplots()
+ax1.bar(w.keys(), w.values())
+fig.autofmt_xdate()
 plt.savefig('graph.png')
 plt.show()
