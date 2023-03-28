@@ -1,16 +1,18 @@
 import string
+from collections import Counter
+import matplotlib.pyplot as plt
 
 text = open('read.txt',encoding='utf-8').read()
-print(text)
+# print(text)
 
 lower_text = text.lower()
-print(lower_text)
+# print(lower_text)
 
 cleaned_text = lower_text.translate(str.maketrans('','',string.punctuation))
-print(cleaned_text)
+# print(cleaned_text)
 
 tokenized_words = cleaned_text.split()
-print(tokenized_words)
+# print(tokenized_words)
 
 stop_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself",
               "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself",
@@ -29,4 +31,24 @@ for words in tokenized_words:
     if words not in stop_words:
         final_words.append(words)
 
-print(final_words)
+# print(final_words)
+
+
+emotion_list = []
+with open('emotion.txt','r') as file:
+    for line in file:
+        clear_line = line.replace("\n",'').replace(",",'').replace("'",'').strip()
+        word, emotion = clear_line.split(":")
+        # print("Word : " + word + " " + "Emotion : " + emotion)
+
+        if word in final_words:
+            emotion_list.append(emotion)
+
+print(emotion_list)
+
+w = Counter(emotion_list)
+print(w)
+
+plt.bar(w.keys(), w.values())
+plt.savefig('graph.png')
+plt.show()
